@@ -1,0 +1,21 @@
+{
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "arrow-body-style": ["error", "as-needed"],
+    "react/self-closing-comp": ["error", { "component": true, "html": true }],
+    //    "indent": ["error", 2],
+    "no-multi-spaces": ["error"],
+    "object-curly-spacing": ["error", "always"],
+    "array-bracket-spacing": ["error", "never"],
+    "keyword-spacing": "error",
+    "eol-last": ["error", "always"],
+    "no-empty-function": "warn"
+  }
+}
