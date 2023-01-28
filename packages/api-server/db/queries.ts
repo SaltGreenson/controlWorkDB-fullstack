@@ -1,19 +1,47 @@
-export const insertUser = (name: string, surname: string) =>
-  `INSERT INTO person(name, surname) values (${name}, ${surname}) RETURNING *`;
+interface IMainTable {
+  firstName: string;
+  lastName: string;
+  email: string;
+  gender: string;
+  jobId?: string;
+}
 
-export const getUsers = () => `SELECT * FROM person`;
-
-export const getUser = (id: string) => `SELECT * FROM person WHERE id = ${id}`;
-
-export const updateUser = (id: string, name?: string, surname?: string) => {
-  return (
-    `UPDATE person set ${name ? `name='${name}'` : ""}` +
-    `${name && surname ? "," : ""}` +
-    `${surname ? `surname='${surname}'` : ""}` +
-    ` WHERE id=${id} RETURNING *`
-  );
+export const createMainTableRow = ({
+  firstName,
+  lastName,
+  email,
+  gender,
+  jobId,
+}: IMainTable) => {
+  return `SELECT * FROM create_main_element('${firstName}', '${lastName}', '${email}', '${gender}'${
+    jobId ? `, '${jobId}'` : ""
+  });`;
 };
 
-export const deleteUser = (id: string) => {
-  return `DELETE FROM person WHERE id=${id} RETURNING *`;
-};
+export const updateMainTableRow = ({
+  id,
+  firstName,
+  lastName,
+  email,
+  gender,
+  jobId,
+}: IMainTable & { id: string }) =>
+  `SELECT * from update_main_table(${id}, '${firstName}', '${lastName}', '${email}', '${gender}'${
+    jobId ? `, ${jobId}` : ""
+  });`;
+
+export const deleteMainTableRow = (id: string) =>
+  `SELECT * FROM delete_element_from_main_table(${id});`;
+
+export const getMainTableRows = (offset?: string, limit?: string) =>
+  `SELECT * FROM display_main_table_with_relatable(${offset}, ${limit});`;
+
+export const getMainTableRow = (id: string) =>
+  `SELECT * FROM get_main_element(${id});`;
+
+export const getMax = () => `SELECT * FROM get_max();`;
+
+export const getMin = () => `SELECT * FROM get_min();`;
+
+export const getBetween = (from: string, to: string) =>
+  `SELECT * FROM get_between(${from}, ${to});`;

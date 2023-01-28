@@ -1,6 +1,6 @@
 import { initializedTRPC } from "../helpers/helpers";
-import { userRoutes } from "./user.routes";
+import { main_tableRoutes } from "./main_table.routes";
 
 export const appRouter = initializedTRPC.router({
-  user: userRoutes,
+  user: main_tableRoutes,
 });
