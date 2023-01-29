@@ -41,12 +41,11 @@ const CustomInput = ({
   };
 
   return (
-    <CustomBlock margin={marginContainer}>
+    <CustomBlock margin={marginContainer} width={width}>
       <CustomLabel error={error} width={width}>
         {label}
         <RelativeBlock>
           <InputStyled
-            width={width}
             error={error}
             type={inputType}
             initialType={type}

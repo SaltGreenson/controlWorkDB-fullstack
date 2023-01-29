@@ -69,6 +69,7 @@ export const mainTableRoutes = initializedTRPC.router({
     )
     .output(mainWithRelatableRowsOutput)
     .query(async ({ input }) => {
+      console.log("here");
       const elements = await db.query(
         getMainTableRows(input?.offset, input?.limit)
       );
