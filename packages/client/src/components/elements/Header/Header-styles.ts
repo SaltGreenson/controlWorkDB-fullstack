@@ -12,31 +12,6 @@ export const NavStyled = styled.nav`
   }
 `;
 
-export const SearchFormContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-right: 1rem;
-
-  @media (max-width: 1024px) {
-    margin-right: 0;
-    margin-left: 1rem;
-  }
-
-  @media (max-width: 767px) {
-    width: 80%;
-  }
-
-  @media (min-width: 540px) {
-    width: 100%;
-  }
-
-  @media (max-width: 320px) {
-    gap: 5px;
-    width: 75%;
-  }
-`;
-
 export const Content = styled.div`
   display: flex;
   align-items: center;
@@ -64,20 +39,6 @@ export const StyledUl = styled.ul`
   }
 `;
 
-export const LogoWrapper = styled.div`
-  height: 50px;
-  position: absolute;
-  left: 3rem;
-
-  @media (max-width: 768px) {
-    left: 2rem;
-  }
-
-  @media (max-width: 767px) {
-    display: none;
-  }
-`;
-
 export const MenuItemList = styled.li<{ isActive?: boolean }>`
   display: flex;
   align-items: center;
@@ -98,29 +59,6 @@ export const MenuItemList = styled.li<{ isActive?: boolean }>`
   }
 
   @media (max-width: 1024px) {
-    display: none;
-  }
-`;
-
-export const BurgerMenuWrapper = styled.div`
-  display: none;
-  position: absolute;
-  right: 5px;
-  top: 15px;
-
-  @media (max-width: 1024px) {
-    display: block;
-  }
-`;
-
-export const ProfileMenuWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-
-  @media (max-width: 1024px) {
-    gap: 1rem;
     display: none;
   }
 `;

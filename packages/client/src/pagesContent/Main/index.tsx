@@ -2,9 +2,15 @@ import { instance } from "@/api";
 import { CustomBlock, FlexBlock } from "@/components/common/Block";
 import CustomButton from "@/components/common/CustomButton";
 import { CustomInput, InputSearch } from "@/components/common/Inputs";
+import LabelValue from "@/components/common/LabelValue";
 import { Table, TD, TH, TR } from "@/components/common/Table/Table";
 import PopUp from "@/components/elements/PopUp";
-import { StyledFormContainer } from "@/pagesContent/Main/main-styles";
+import {
+  Container,
+  StyledCart,
+  StyledFormContainer,
+  StyledToggle,
+} from "@/pagesContent/Main/main-styles";
 import { IMainWithRelatable } from "@/types/main.types";
 import React, { FormEvent, useCallback, useState } from "react";
 
@@ -16,6 +22,7 @@ const MainContent = ({ elements }: MainContentType) => {
   const [data, setData] = useState(elements);
   const [selectedElement, setSelectedElement] = useState(data[0]);
   const [isActivePopUp, setIsActivePopUp] = useState(false);
+  const [isActiveTable, setIsActiveTable] = useState(true);
 
   const handleOnClick = useCallback(
     (element: IMainWithRelatable) => () => {
@@ -57,6 +64,33 @@ const MainContent = ({ elements }: MainContentType) => {
           </TR>
         ))}
     </Table>
+  );
+
+  const displayCards = () => {
+    return (
+      data &&
+      data.map((el) => (
+        <StyledCart
+          key={el.id}
+          onClick={handleOnClick(el)}
+          onDoubleClick={handleDoubleClick()}
+        >
+          <LabelValue label="First name" value={el.first_name} isBoldLabel />
+          <LabelValue label="Last name" value={el.last_name} isBoldLabel />
+          <LabelValue label="Email" value={el.email} isBoldLabel />
+          <LabelValue label="Gender" value={el.gender} isBoldLabel />
+          <LabelValue label="Job" value={el.job_title ?? "None"} isBoldLabel />
+          <LabelValue label="Salary" value={el.salary} isBoldLabel />
+        </StyledCart>
+      ))
+    );
+  };
+
+  const handleOnClickToggle = useCallback(
+    (value: boolean) => () => {
+      setIsActiveTable(value);
+    },
+    [setIsActiveTable]
   );
 
   const updateHandleSubmit = useCallback(
@@ -120,22 +154,42 @@ const MainContent = ({ elements }: MainContentType) => {
 
   return (
     <>
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          await searchHandleSubmit(e);
-        }}
+      <FlexBlock
+        gap="50px"
+        margin="20px 0"
+        align="center"
+        justify="space-between"
       >
-        <FlexBlock margin="20px 0" gap="10px" maxWidth="500px">
-          <InputSearch name="params" variant="large" />
-          <CustomButton variant="primary" size="medium">
-            Найти
-          </CustomButton>
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            await searchHandleSubmit(e);
+          }}
+        >
+          <FlexBlock gap="10px" maxWidth="500px">
+            <InputSearch name="params" variant="large" />
+            <CustomButton variant="primary" size="medium">
+              Найти
+            </CustomButton>
+          </FlexBlock>
+        </form>
+
+        <FlexBlock>
+          <StyledToggle
+            isActive={isActiveTable}
+            onClick={handleOnClickToggle(true)}
+          >
+            <CustomButton variant="text">Табличный</CustomButton>
+          </StyledToggle>
+          <StyledToggle
+            isActive={!isActiveTable}
+            onClick={handleOnClickToggle(false)}
+          >
+            <CustomButton variant="text">Карточный</CustomButton>
+          </StyledToggle>
         </FlexBlock>
-      </form>
-
-      {displayTable()}
-
+      </FlexBlock>
+      <Container>{isActiveTable ? displayTable() : displayCards()}</Container>
       <form
         onSubmit={async (e) => {
           await createHandleSubmit(e);

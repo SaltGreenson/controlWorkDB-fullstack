@@ -12,7 +12,7 @@ const DynamicReportContent = dynamic(
 
 const Index = () => {
   return (
-    <MainLayout activeTab={2}>
+    <MainLayout activeTab={1}>
       <DynamicReportContent />
     </MainLayout>
   );
