@@ -31,6 +31,34 @@ const MainContent = ({ elements }: MainContentType) => {
     [setIsActivePopUp]
   );
 
+  const displayTable = () => (
+    <Table>
+      <TR>
+        <TH>first name</TH>
+        <TH>last name</TH>
+        <TH>email</TH>
+        <TH>gender</TH>
+        <TH>job</TH>
+        <TH>salary</TH>
+      </TR>
+      {data &&
+        data.map((el) => (
+          <TR
+            key={el.id}
+            onClick={handleOnClick(el)}
+            onDoubleClick={handleDoubleClick()}
+          >
+            <TD>{el.first_name}</TD>
+            <TD>{el.last_name}</TD>
+            <TD>{el.email}</TD>
+            <TD>{el.gender}</TD>
+            <TD>{el.job_title}</TD>
+            <TD>{el.salary}</TD>
+          </TR>
+        ))}
+    </Table>
+  );
+
   const updateHandleSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
       await instance.put(`main/element?id=${selectedElement.id}`, {
@@ -106,31 +134,8 @@ const MainContent = ({ elements }: MainContentType) => {
         </FlexBlock>
       </form>
 
-      <Table>
-        <TR>
-          <TH>first name</TH>
-          <TH>last name</TH>
-          <TH>email</TH>
-          <TH>gender</TH>
-          <TH>job</TH>
-          <TH>salary</TH>
-        </TR>
-        {data &&
-          data.map((el) => (
-            <TR
-              key={el.id}
-              onClick={handleOnClick(el)}
-              onDoubleClick={handleDoubleClick()}
-            >
-              <TD>{el.first_name}</TD>
-              <TD>{el.last_name}</TD>
-              <TD>{el.email}</TD>
-              <TD>{el.gender}</TD>
-              <TD>{el.job_title}</TD>
-              <TD>{el.salary}</TD>
-            </TR>
-          ))}
-      </Table>
+      {displayTable()}
+
       <form
         onSubmit={async (e) => {
           await createHandleSubmit(e);

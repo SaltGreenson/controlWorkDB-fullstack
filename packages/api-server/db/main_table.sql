@@ -212,10 +212,10 @@ BEGIN
                         job.salary
                  FROM person
                           JOIN job ON job.id = person.job_id
-                 WHERE job.job_title LIKE '%' || search_text || '%'
-                    OR person.first_name LIKE '%' || search_text || '%'
-                    OR person.last_name LIKE '%' || search_text || '%'
-                    OR person.email LIKE '%' || search_text || '%'
-                    OR person.gender LIKE '%' || search_text || '%';
+                 WHERE job.job_title ILIKE '%' || search_text || '%'
+                    OR person.first_name ILIKE '%' || search_text || '%'
+                    OR person.last_name ILIKE '%' || search_text || '%'
+                    OR person.email ILIKE '%' || search_text || '%'
+                    OR person.gender ILIKE '%' || search_text || '%';
 END;
 $$ LANGUAGE plpgsql;
