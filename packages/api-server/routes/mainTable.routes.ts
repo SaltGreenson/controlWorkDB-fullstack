@@ -8,6 +8,7 @@ import {
   getMainTableRows,
   getMax,
   getMin,
+  searchQuery,
   updateMainTableRow,
 } from "../dbQueries/main.queries";
 import { initializedTRPC, publicProcedure } from "../helpers/helpers";
@@ -198,5 +199,25 @@ export const mainTableRoutes = initializedTRPC.router({
       const { from, to } = input;
       const candidate = await db.query(getBetween(from, to));
       return candidate.rows;
+    }),
+  search: publicProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/main/elements/search",
+        tags: ["main"],
+        summary: "Search person with job",
+      },
+    })
+    .input(
+      z.object({
+        params: z.string(),
+      })
+    )
+    .output(mainWithRelatableRowsOutput)
+    .query(async ({ input }) => {
+      const { params } = input;
+      const elements = await db.query(searchQuery(params));
+      return elements.rows;
     }),
 });

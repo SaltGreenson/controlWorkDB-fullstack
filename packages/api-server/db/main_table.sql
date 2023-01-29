@@ -188,3 +188,34 @@ CREATE TRIGGER my_trigger_add_value_on_insert
     ON person
     FOR EACH ROW
 EXECUTE FUNCTION add_value_to_relatable();
+
+CREATE OR REPLACE FUNCTION search_all_fields(search_text VARCHAR(255))
+    RETURNS TABLE
+            (
+                id         BIGINT,
+                first_name VARCHAR(100),
+                last_name  VARCHAR(100),
+                email      VARCHAR(100),
+                gender     VARCHAR(6),
+                job_title  VARCHAR(100),
+                salary     NUMERIC(5, 2)
+            )
+AS
+$$
+BEGIN
+    RETURN QUERY SELECT person.id,
+                        person.first_name,
+                        person.last_name,
+                        person.email,
+                        person.gender,
+                        job.job_title,
+                        job.salary
+                 FROM person
+                          JOIN job ON job.id = person.job_id
+                 WHERE job.job_title LIKE '%' || search_text || '%'
+                    OR person.first_name LIKE '%' || search_text || '%'
+                    OR person.last_name LIKE '%' || search_text || '%'
+                    OR person.email LIKE '%' || search_text || '%'
+                    OR person.gender LIKE '%' || search_text || '%';
+END;
+$$ LANGUAGE plpgsql;

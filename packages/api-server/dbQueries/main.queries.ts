@@ -11,7 +11,7 @@ export const createMainTableRow = ({
   lastName,
   email,
   gender,
-  jobId,
+  jobId = "493",
 }: IMainTable) => {
   return `SELECT *
           FROM create_main_element('${firstName}', '${lastName}', '${email}', '${gender}'${
@@ -50,3 +50,6 @@ export const getMin = () => `SELECT * FROM get_min();`;
 
 export const getBetween = (from: string, to: string) =>
   `SELECT * FROM get_between(${from}, ${to});`;
+
+export const searchQuery = (search: string) =>
+  `select * from search_all_fields('${search}');`;
