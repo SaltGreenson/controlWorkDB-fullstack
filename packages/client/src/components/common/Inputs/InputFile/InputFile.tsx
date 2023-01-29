@@ -1,4 +1,4 @@
-import { IPhotoGallery } from "@/types/catalog.types";
+import { IPhotoGallery } from "@/types/main.types";
 import React from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { CustomBlock, RelativeBlock } from "../../Block";

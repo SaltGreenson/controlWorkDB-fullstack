@@ -2,7 +2,15 @@ import { instance } from "@/api";
 import React from "react";
 
 const MainContent = () => {
-  return <div></div>;
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+  );
 };
 
 export default MainContent;
