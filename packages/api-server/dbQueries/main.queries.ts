@@ -13,7 +13,8 @@ export const createMainTableRow = ({
   gender,
   jobId,
 }: IMainTable) => {
-  return `SELECT * FROM create_main_element('${firstName}', '${lastName}', '${email}', '${gender}'${
+  return `SELECT *
+          FROM create_main_element('${firstName}', '${lastName}', '${email}', '${gender}'${
     jobId ? `, '${jobId}'` : ""
   });`;
 };
@@ -26,7 +27,8 @@ export const updateMainTableRow = ({
   gender,
   jobId,
 }: IMainTable & { id: string }) =>
-  `SELECT * from update_main_table(${id}, '${firstName}', '${lastName}', '${email}', '${gender}'${
+  `SELECT *
+   from update_main_table(${id}, '${firstName}', '${lastName}', '${email}', '${gender}'${
     jobId ? `, ${jobId}` : ""
   });`;
 
@@ -34,10 +36,13 @@ export const deleteMainTableRow = (id: string) =>
   `SELECT * FROM delete_element_from_main_table(${id});`;
 
 export const getMainTableRows = (offset?: string, limit?: string) =>
-  `SELECT * FROM display_main_table_with_relatable(${offset}, ${limit});`;
+  `SELECT * FROM display_main_table_with_relatable(${offset ?? "0"}, ${
+    limit ?? "20"
+  });`;
 
 export const getMainTableRow = (id: string) =>
-  `SELECT * FROM get_main_element(${id});`;
+  `SELECT *
+   FROM get_main_element(${id});`;
 
 export const getMax = () => `SELECT * FROM get_max();`;
 

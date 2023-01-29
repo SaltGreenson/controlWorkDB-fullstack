@@ -6,5 +6,5 @@ export const openApiDocument = generateOpenApiDocument(appRouter, {
   description: "",
   version: "1.0.0",
   baseUrl: `http://localhost:8080/api`,
-  tags: ["main"],
+  tags: ["main", "related"],
 });

@@ -6,7 +6,7 @@ import { openApiDocument } from "./openapi";
 import { appRouter } from "./routes";
 import swaggerUi from "swagger-ui-express";
 
-export let port: number = 8080;
+let port: number = 8080;
 
 const app = express();
 app.use(cors());

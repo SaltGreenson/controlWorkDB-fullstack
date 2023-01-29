@@ -9,15 +9,15 @@ import {
   getMax,
   getMin,
   updateMainTableRow,
-} from "../db/queries";
+} from "../dbQueries/main.queries";
 import { initializedTRPC, publicProcedure } from "../helpers/helpers";
 import {
   mainRowOutput,
   mainWithRelatableRowOutput,
   mainWithRelatableRowsOutput,
-} from "../output/output";
+} from "../output/main.output";
 
-export const main_tableRoutes = initializedTRPC.router({
+export const mainTableRoutes = initializedTRPC.router({
   create: publicProcedure
     .meta({
       openapi: {
@@ -56,7 +56,7 @@ export const main_tableRoutes = initializedTRPC.router({
         method: "GET",
         path: "/main/elements",
         tags: ["main"],
-        summary: "Get all elements from main table",
+        summary: "Get all elements from main table and related table",
       },
     })
     .input(
