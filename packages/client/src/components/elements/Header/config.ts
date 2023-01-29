@@ -1,15 +1,11 @@
 import { LinkType } from "@/types/common.types";
 export const headerLinks: LinkType[] = [
   {
-    title: "Главная таблица",
+    title: "Таблица",
     href: "/",
   },
   {
-    title: "Дочерняя таблица",
-    href: "/related",
-  },
-  {
-    title: "Отчет",
+    title: "Отчёт",
     href: "/report",
   },
 ];

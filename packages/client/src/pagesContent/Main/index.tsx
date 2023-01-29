@@ -1,3 +1,4 @@
+import { instance } from "@/api";
 import { CustomBlock, FlexBlock } from "@/components/common/Block";
 import CustomButton from "@/components/common/CustomButton";
 import { CustomInput } from "@/components/common/Inputs";
@@ -5,21 +6,70 @@ import { Table, TD, TH, TR } from "@/components/common/Table/Table";
 import PopUp from "@/components/elements/PopUp";
 import { StyledFormContainer } from "@/pagesContent/Main/main-styles";
 import { IMainWithRelatable } from "@/types/main.types";
-import React, { useState } from "react";
+import React, { FormEvent, useCallback, useState } from "react";
 
 interface MainContentType {
   elements: IMainWithRelatable[];
 }
 
 const MainContent = ({ elements }: MainContentType) => {
-  const [selectedElement, setSelectedElement] = useState(elements[0]);
+  const [data, setData] = useState(elements);
+  const [selectedElement, setSelectedElement] = useState(data[0]);
   const [isActivePopUp, setIsActivePopUp] = useState(false);
-  const handleOnClick = (element: IMainWithRelatable) => () => {
-    setSelectedElement(element);
-  };
 
-  const handleDoubleClick = () => () => {
-    setIsActivePopUp(true);
+  const handleOnClick = useCallback(
+    (element: IMainWithRelatable) => () => {
+      setSelectedElement(element);
+    },
+    [setSelectedElement]
+  );
+
+  const handleDoubleClick = useCallback(
+    () => () => {
+      setIsActivePopUp(true);
+    },
+    [setIsActivePopUp]
+  );
+
+  const changeHandleSubmit = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      await instance.put(`main/element?id=${selectedElement.id}`, {
+        id: event.currentTarget?.person_id.value,
+        firstName: event.currentTarget?.first_name.value,
+        lastName: event.currentTarget?.last_name.value,
+        email: event.currentTarget?.email.value,
+        gender: event.currentTarget?.gender.value,
+      });
+      const response = await instance.get("main/elements");
+      setData(response.data);
+      setIsActivePopUp(false);
+      document.body.style.overflow = "auto";
+    },
+    []
+  );
+
+  const createHandleSubmit = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      await instance.post(`main/element`, {
+        firstName: event.currentTarget?.create_first_name.value,
+        lastName: event.currentTarget?.create_last_name.value,
+        email: event.currentTarget?.create_email.value,
+        gender: event.currentTarget?.create_gender.value,
+      });
+      const response = await instance.get("main/elements");
+      setData(response.data);
+      setIsActivePopUp(false);
+      document.body.style.overflow = "auto";
+    },
+    []
+  );
+
+  const deleteOnClick = () => async () => {
+    await instance.delete(`main/element?id=${selectedElement.id}`);
+    const response = await instance.get("main/elements");
+    setData(response.data);
+    setIsActivePopUp(false);
+    document.body.style.overflow = "auto";
   };
 
   return (
@@ -33,8 +83,8 @@ const MainContent = ({ elements }: MainContentType) => {
           <TH>job</TH>
           <TH>salary</TH>
         </TR>
-        {elements &&
-          elements.map((el) => (
+        {data &&
+          data.map((el) => (
             <TR
               key={el.id}
               onClick={handleOnClick(el)}
@@ -49,49 +99,100 @@ const MainContent = ({ elements }: MainContentType) => {
             </TR>
           ))}
       </Table>
+      <form
+        onSubmit={async (e) => {
+          await createHandleSubmit(e);
+        }}
+      >
+        <FlexBlock gap="10px" margin="50px 0 0 0">
+          <CustomInput
+            name="create_first_name"
+            label="First name"
+            width="245px"
+          />
+          <CustomInput
+            name="create_last_name"
+            label="Last name"
+            width="245px"
+          />
+          <CustomInput name="create_email" label="Email" width="245px" />
+          <CustomInput name="create_gender" label="Gender" width="245px" />
+        </FlexBlock>
+        <CustomBlock margin="20px 0 0 0">
+          <CustomButton name="save" variant="primary" type="submit">
+            Создать
+          </CustomButton>
+        </CustomBlock>
+      </form>
       {isActivePopUp && (
         <PopUp setActive={setIsActivePopUp}>
-          <StyledFormContainer>
-            <FlexBlock gap="20px" maxWidth="500px" direction="column">
-              <FlexBlock gap="10px">
-                <CustomInput
-                  label="First name"
-                  width="245px"
-                  defaultValue={selectedElement.first_name}
-                />
-                <CustomInput
-                  label="Last name"
-                  width="245px"
-                  defaultValue={selectedElement.last_name}
-                />
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              await changeHandleSubmit(e);
+            }}
+          >
+            <input type="hidden" name="person_id" value={selectedElement.id} />
+            <StyledFormContainer>
+              <FlexBlock gap="20px" maxWidth="500px" direction="column">
+                <FlexBlock gap="10px">
+                  <CustomInput
+                    name="first_name"
+                    label="First name"
+                    width="245px"
+                    defaultValue={selectedElement.first_name}
+                  />
+                  <CustomInput
+                    name="last_name"
+                    label="Last name"
+                    width="245px"
+                    defaultValue={selectedElement.last_name}
+                  />
+                </FlexBlock>
+                <CustomBlock width="100%">
+                  <CustomInput
+                    name="email"
+                    width="100%"
+                    label="email"
+                    defaultValue={selectedElement.email}
+                  />
+                </CustomBlock>
+                <FlexBlock gap="10px">
+                  <CustomInput
+                    name="gender"
+                    label="gender"
+                    defaultValue={selectedElement.gender}
+                  />
+                  <CustomInput
+                    name="job_title"
+                    label="Job"
+                    defaultValue={selectedElement.job_title}
+                  />
+                  <CustomInput
+                    name="salary"
+                    label="Salary"
+                    defaultValue={selectedElement.salary}
+                  />
+                </FlexBlock>
+                <FlexBlock justify="flex-end" gap="10px">
+                  <CustomButton name="save" variant="primary" type="submit">
+                    Сохранить
+                  </CustomButton>
+                  <CustomButton
+                    name="delete"
+                    variant="secondary"
+                    type="submit"
+                    onClick={(e) => {
+                      deleteOnClick()();
+                      e.preventDefault();
+                    }}
+                  >
+                    Удалить
+                  </CustomButton>
+                </FlexBlock>
               </FlexBlock>
-              <CustomBlock width="100%">
-                <CustomInput
-                  width="100%"
-                  label="email"
-                  defaultValue={selectedElement.email}
-                />
-              </CustomBlock>
-              <FlexBlock gap="10px">
-                <CustomInput
-                  label="gender"
-                  defaultValue={selectedElement.gender}
-                />
-                <CustomInput
-                  label="Job"
-                  defaultValue={selectedElement.job_title}
-                />
-                <CustomInput
-                  label="Salary"
-                  defaultValue={selectedElement.salary}
-                />
-              </FlexBlock>
-              <FlexBlock justify="flex-end" gap="10px">
-                <CustomButton variant="primary">Сохранить</CustomButton>
-                <CustomButton variant="secondary">Удалить</CustomButton>
-              </FlexBlock>
-            </FlexBlock>
-          </StyledFormContainer>
+            </StyledFormContainer>
+          </form>
         </PopUp>
       )}
     </>

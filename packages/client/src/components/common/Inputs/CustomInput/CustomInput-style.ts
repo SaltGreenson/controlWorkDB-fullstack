@@ -26,14 +26,15 @@ export const InputStyled = styled.input<StyledInputProps>`
   border: 1px solid ${Colors.LINE_COLOR};
   border-radius: 3px;
   background-color: transparent;
+  transition: border 300ms;
   outline: none;
 
   &:focus {
-    outline: 1px solid ${Colors.DARK_BLUE};
+    border: 1px solid ${Colors.DARK_BLUE};
   }
 
   &:active {
-    outline: 1px solid ${Colors.DARK_BLUE};
+    border: 1px solid ${Colors.DARK_BLUE};
   }
 
   &::placeholder {

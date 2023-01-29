@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 import { CustomBlock, RelativeBlock } from "../../Block";
@@ -13,6 +13,7 @@ interface CustomInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   isDarkTheme?: boolean;
   register?: UseFormRegisterReturn<string>;
   width?: "5rem" | "12rem" | "21.4rem" | string;
+  ref?: RefObject<HTMLInputElement>;
 }
 
 const CustomInput = ({
@@ -22,6 +23,7 @@ const CustomInput = ({
   register,
   width,
   type,
+  ref,
   ...inputProps
 }: CustomInputProps): JSX.Element => {
   const [clicked, setClicked] = useState(false);
@@ -51,6 +53,7 @@ const CustomInput = ({
             initialType={type}
             {...register}
             {...inputProps}
+            ref={ref}
           />
           {type === "password" && (
             <PasswordTitle onClick={handleOnClick()}>
