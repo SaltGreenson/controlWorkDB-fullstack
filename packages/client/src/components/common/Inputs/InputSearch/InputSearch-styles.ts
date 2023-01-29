@@ -38,6 +38,7 @@ export const StyledLargeSearchInput = styled.input<{ error?: string }>`
   border: 2px solid ${Colors.LINE_COLOR};
   border-radius: 23px;
   background: ${Colors.WHITE} url(/Icons/searchIcon.svg) no-repeat 7px 45%;
+  transition: border 300ms;
 
   &:focus {
     border: 2px solid ${Colors.DARK_BLUE};

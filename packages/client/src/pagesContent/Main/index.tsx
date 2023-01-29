@@ -1,7 +1,7 @@
 import { instance } from "@/api";
 import { CustomBlock, FlexBlock } from "@/components/common/Block";
 import CustomButton from "@/components/common/CustomButton";
-import { CustomInput } from "@/components/common/Inputs";
+import { CustomInput, InputSearch } from "@/components/common/Inputs";
 import { Table, TD, TH, TR } from "@/components/common/Table/Table";
 import PopUp from "@/components/elements/PopUp";
 import { StyledFormContainer } from "@/pagesContent/Main/main-styles";
@@ -31,7 +31,7 @@ const MainContent = ({ elements }: MainContentType) => {
     [setIsActivePopUp]
   );
 
-  const changeHandleSubmit = useCallback(
+  const updateHandleSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
       await instance.put(`main/element?id=${selectedElement.id}`, {
         id: event.currentTarget?.person_id.value,
@@ -64,16 +64,48 @@ const MainContent = ({ elements }: MainContentType) => {
     []
   );
 
-  const deleteOnClick = () => async () => {
-    await instance.delete(`main/element?id=${selectedElement.id}`);
-    const response = await instance.get("main/elements");
-    setData(response.data);
-    setIsActivePopUp(false);
-    document.body.style.overflow = "auto";
-  };
+  const deleteHandleSubmit = useCallback(
+    () => async () => {
+      console.log("here");
+      await instance.delete(`main/element?id=${selectedElement.id}`);
+      const response = await instance.get("main/elements");
+      setData(response.data);
+      setIsActivePopUp(false);
+      document.body.style.overflow = "auto";
+    },
+    []
+  );
+
+  const searchHandleSubmit = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      const params = event.currentTarget?.params.value;
+      let response;
+      if (!params) {
+        response = await instance.get(`main/elements`);
+      } else {
+        response = await instance.get(`main/elements/search?params=${params}`);
+      }
+      setData(response.data);
+    },
+    []
+  );
 
   return (
     <>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          await searchHandleSubmit(e);
+        }}
+      >
+        <FlexBlock margin="20px 0" gap="10px" maxWidth="500px">
+          <InputSearch name="params" variant="large" />
+          <CustomButton variant="primary" size="medium">
+            Найти
+          </CustomButton>
+        </FlexBlock>
+      </form>
+
       <Table>
         <TR>
           <TH>first name</TH>
@@ -129,7 +161,7 @@ const MainContent = ({ elements }: MainContentType) => {
           <form
             onSubmit={async (e) => {
               e.preventDefault();
-              await changeHandleSubmit(e);
+              await updateHandleSubmit(e);
             }}
           >
             <input type="hidden" name="person_id" value={selectedElement.id} />
@@ -181,9 +213,9 @@ const MainContent = ({ elements }: MainContentType) => {
                   <CustomButton
                     name="delete"
                     variant="secondary"
-                    type="submit"
+                    type="button"
                     onClick={(e) => {
-                      deleteOnClick()();
+                      deleteHandleSubmit()();
                       e.preventDefault();
                     }}
                   >

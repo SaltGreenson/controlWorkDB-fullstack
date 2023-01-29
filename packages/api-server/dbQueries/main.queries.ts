@@ -25,7 +25,7 @@ export const updateMainTableRow = ({
   lastName,
   email,
   gender,
-  jobId,
+  jobId = "493",
 }: IMainTable & { id: string }) =>
   `SELECT *
    from update_main_table(${id}, '${firstName}', '${lastName}', '${email}', '${gender}'${
