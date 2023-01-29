@@ -20,8 +20,7 @@ CREATE TABLE IF NOT EXISTS person
 -- FROM person;
 
 
--- ALTER TABLE person
---     ADD CONSTRAINT gender_male_and_female_constraint CHECK (gender = 'Female' OR gender = 'Male');
+-- ALTER TABLE person ADD CONSTRAINT gender_male_and_female_constraint CHECK (gender = 'Female' OR gender = 'Male');
 
 
 CREATE OR REPLACE FUNCTION display_main_table_with_relatable(_offset INT DEFAULT 0, _limit INT DEFAULT 20)
