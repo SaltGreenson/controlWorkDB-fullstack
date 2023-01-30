@@ -13,7 +13,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:8080](http://localhost:8080).
 
-First, run the development server:
+Run the development server:
 
 ```bash
 # in root directory
