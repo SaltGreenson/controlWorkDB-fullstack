@@ -2,6 +2,9 @@ import { Colors } from "@/styles/colors";
 import styled, { css } from "styled-components";
 
 export const StyledFormContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
   background-color: ${Colors.WHITE};
   padding: 20px;
   border-radius: 6px;

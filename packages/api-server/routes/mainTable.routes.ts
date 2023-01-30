@@ -47,7 +47,7 @@ export const mainTableRoutes = initializedTRPC.router({
         method: "GET",
         path: "/main/elements",
         tags: ["main"],
-        summary: "Get all elements from main table and related table",
+        summary: "Get all elements from main table and view table",
       },
     })
     .input(

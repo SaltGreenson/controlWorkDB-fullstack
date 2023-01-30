@@ -18,7 +18,7 @@ export const relatedTableRoutes = initializedTRPC.router({
     .meta({
       openapi: {
         method: "POST",
-        path: "/related/element",
+        path: "/view/element",
         tags: ["related"],
         summary: "Create element",
       },
@@ -41,7 +41,7 @@ export const relatedTableRoutes = initializedTRPC.router({
     .meta({
       openapi: {
         method: "PUT",
-        path: "/related/element",
+        path: "/view/element",
         tags: ["related"],
         summary: "Update element",
       },
@@ -65,7 +65,7 @@ export const relatedTableRoutes = initializedTRPC.router({
     .meta({
       openapi: {
         method: "DELETE",
-        path: "/related/element",
+        path: "/view/element",
         tags: ["related"],
         summary: "Delete element",
       },
@@ -85,9 +85,9 @@ export const relatedTableRoutes = initializedTRPC.router({
     .meta({
       openapi: {
         method: "GET",
-        path: "/related/elements",
+        path: "/view/elements",
         tags: ["related"],
-        summary: "Get all elements from related table",
+        summary: "Get all elements from view table",
       },
     })
     .input(
@@ -109,7 +109,7 @@ export const relatedTableRoutes = initializedTRPC.router({
     .meta({
       openapi: {
         method: "GET",
-        path: "/related/element",
+        path: "/view/element",
         tags: ["related"],
         summary: "Get element",
       },

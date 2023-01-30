@@ -3,8 +3,8 @@ import MainLayout from "@/components/layouts/Main";
 import dynamic from "next/dynamic";
 import React from "react";
 
-const DynamicRelatedContent = dynamic(
-  () => import("../../pagesContent/Related"),
+const DynamicCreateContent = dynamic(
+  () => import("../../pagesContent/Create"),
   {
     loading: Preloader,
   }
@@ -13,7 +13,7 @@ const DynamicRelatedContent = dynamic(
 const Index = () => {
   return (
     <MainLayout activeTab={1}>
-      <DynamicRelatedContent />
+      <DynamicCreateContent />
     </MainLayout>
   );
 };

@@ -3,19 +3,15 @@ import MainLayout from "@/components/layouts/Main";
 import dynamic from "next/dynamic";
 import React from "react";
 
-const DynamicReportContent = dynamic(
-  () => import("../../pagesContent/Report"),
-  {
-    loading: Preloader,
-  }
-);
+const DynamicViewContent = dynamic(() => import("../../pagesContent/View"), {
+  loading: Preloader,
+});
 
 const Index = () => {
   return (
-    <MainLayout activeTab={3}>
-      <DynamicReportContent />
+    <MainLayout activeTab={2}>
+      <DynamicViewContent />
     </MainLayout>
   );
 };
-
 export default Index;

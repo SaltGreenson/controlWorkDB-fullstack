@@ -29,7 +29,7 @@ const LabelValue = ({
   valueColor = Colors.TITLE_COLOR,
   variant,
 }: LabelValueProps): JSX.Element => (
-  <FlexBlock justify="space-between" margin={marginContainer}>
+  <FlexBlock justify="space-between" gap="20px" margin={marginContainer}>
     <Paragraph
       color={titleColor}
       variant={variant ?? "medium"}

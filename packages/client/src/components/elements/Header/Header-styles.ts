@@ -42,8 +42,6 @@ export const StyledUl = styled.ul`
 export const MenuItemList = styled.li<{ isActive?: boolean }>`
   display: flex;
   align-items: center;
-  height: 40px;
-  padding: 0 10px;
   border-radius: 6px;
   transition: 400ms;
   cursor: pointer;
@@ -55,6 +53,7 @@ export const MenuItemList = styled.li<{ isActive?: boolean }>`
     `}
 
   & > a {
+    padding: 10px;
     white-space: nowrap;
   }
 

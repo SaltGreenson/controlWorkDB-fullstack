@@ -4,6 +4,7 @@ import styled from "styled-components";
 export const StyledTable = styled.table`
   border-collapse: collapse;
   border: 4px solid ${Colors.ICE};
+  min-width: 100%;
 `;
 
 export const StyledTR = styled.tr`
