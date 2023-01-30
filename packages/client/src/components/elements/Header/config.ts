@@ -9,10 +9,6 @@ export const headerLinks: LinkType[] = [
     href: "/create",
   },
   {
-    title: "Представление",
-    href: "/view",
-  },
-  {
     title: "Отчёт",
     href: "/report",
   },

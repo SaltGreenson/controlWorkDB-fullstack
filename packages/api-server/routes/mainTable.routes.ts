@@ -4,10 +4,12 @@ import db from "../db/db.pool";
 import {
   createMainTableRow,
   deleteMainTableRow,
+  getAvgPopulation,
   getBetween,
   getCountLessAvg,
   getMainTableRows,
   getMax,
+  getMaxSquare,
   getMin,
   getRegionsLessAvg,
   searchDataQuery,
@@ -178,6 +180,7 @@ export const mainTableRoutes = initializedTRPC.router({
     .query(async ({ input }) => {
       const { params } = input;
       let elements;
+      console.log(+params);
       if (+params) {
         elements = await db.query(searchSalaryQuery(params));
       } else {
@@ -197,11 +200,12 @@ export const mainTableRoutes = initializedTRPC.router({
     .input(z.object({}).optional())
     .output(
       z.object({
-        count: z.number(),
+        count: z.string(),
       })
     )
     .query(async ({ input }) => {
       const candidate = await db.query(getCountLessAvg());
+      console.log(candidate.rows);
       return candidate.rows[0];
     }),
   getRegionsLessAvg: publicProcedure
@@ -218,5 +222,39 @@ export const mainTableRoutes = initializedTRPC.router({
     .query(async ({ input }) => {
       const candidate = await db.query(getRegionsLessAvg());
       return candidate.rows;
+    }),
+  getMaxSquare: publicProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/main/max-square",
+        tags: ["main"],
+        summary: "Get element between from and to",
+      },
+    })
+    .input(z.object({}).optional())
+    .output(mainRowOutput)
+    .query(async ({ input }) => {
+      const candidate = await db.query(getMaxSquare());
+      return candidate.rows[0];
+    }),
+  getAvdPopulation: publicProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/main/avg-population",
+        tags: ["main"],
+        summary: "Get element between from and to",
+      },
+    })
+    .input(z.object({}).optional())
+    .output(
+      z.object({
+        avg: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      const candidate = await db.query(getAvgPopulation());
+      return candidate.rows[0];
     }),
 });

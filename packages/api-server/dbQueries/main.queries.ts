@@ -58,3 +58,10 @@ export const getRegionsLessAvg = () => `
     select *
     from get_regions_less_than_average();
 `;
+
+export const getMaxSquare = () => `
+ select * from get_max_square();
+`;
+
+export const getAvgPopulation = () => `select * from get_average_population();
+`;

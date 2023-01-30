@@ -118,7 +118,7 @@ $$
 BEGIN
     RETURN QUERY SELECT *
                  FROM belarus_region
-                 WHERE square <= search_salary
+                 WHERE square = search_salary
                  ORDER BY square DESC;
 END;
 $$ LANGUAGE plpgsql;
@@ -140,5 +140,26 @@ $$
 BEGIN
     RETURN QUERY
     SELECT * FROM belarus_region WHERE square < (SELECT AVG(square) FROM belarus_region);
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION get_max_square()
+    RETURNS SETOF belarus_region
+AS
+$$
+BEGIN
+    RETURN QUERY
+        SELECT * FROM belarus_region WHERE square = (SELECT MAX(square) FROM belarus_region);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_average_population()
+    RETURNS TABLE(avg numeric)
+AS
+$$
+BEGIN
+    RETURN QUERY
+        SELECT ROUND(AVG(population)) FROM belarus_region;
 END;
 $$ LANGUAGE plpgsql;

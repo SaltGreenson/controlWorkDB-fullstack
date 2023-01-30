@@ -12,12 +12,10 @@ const CreateContent = () => {
   const createHandleSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
       await instance.post(`main/element`, {
-        firstName: event.currentTarget?.create_first_name.value,
-        lastName: event.currentTarget?.create_last_name.value,
-        email: event.currentTarget?.create_email.value,
-        gender: event.currentTarget?.create_gender.value,
-        job: event.currentTarget?.create_job_title.value,
-        salary: event.currentTarget?.create_salary.value,
+        region: event.currentTarget?.create_region.value,
+        capital: event.currentTarget?.create_capital.value,
+        square: event.currentTarget?.create_square.value,
+        population: event.currentTarget?.create_population.value,
       });
       await router.push("/");
     },

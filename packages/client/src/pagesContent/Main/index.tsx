@@ -53,13 +53,11 @@ const MainContent = ({ elements }: MainContentType) => {
   const updateHandleSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
       await instance.put(`main/element`, {
-        id: event.currentTarget?.person_id.value,
-        firstName: event.currentTarget?.first_name.value,
-        lastName: event.currentTarget?.last_name.value,
-        email: event.currentTarget?.email.value,
-        gender: event.currentTarget?.gender.value,
-        job: event.currentTarget?.job_title.value,
-        salary: event.currentTarget?.salary.value,
+        id: event.currentTarget?.region_id.value,
+        region: event.currentTarget?.region.value,
+        capital: event.currentTarget?.capital.value,
+        square: event.currentTarget?.square.value,
+        population: event.currentTarget?.population.value,
       });
       const response = await instance.get("main/elements");
       setData(response.data);
@@ -94,12 +92,10 @@ const MainContent = ({ elements }: MainContentType) => {
   const displayTableElements = () => (
     <Table>
       <TR>
-        <TH>first name</TH>
-        <TH>last name</TH>
-        <TH>email</TH>
-        <TH>gender</TH>
-        <TH>job</TH>
-        <TH>salary</TH>
+        <TH>Область</TH>
+        <TH>Областной центр</TH>
+        <TH>Площадь, тыс. км</TH>
+        <TH>Население, тыс.</TH>
       </TR>
       {data &&
         data.map((el) => (
@@ -108,12 +104,10 @@ const MainContent = ({ elements }: MainContentType) => {
             onClick={handleOnClick(el)}
             onDoubleClick={handleDoubleClick()}
           >
-            <TD>{el.first_name}</TD>
-            <TD>{el.last_name}</TD>
-            <TD>{el.email}</TD>
-            <TD>{el.gender}</TD>
-            <TD>{el.job}</TD>
-            <TD>{el.salary}</TD>
+            <TD>{el.region}</TD>
+            <TD>{el.capital}</TD>
+            <TD>{el.square}</TD>
+            <TD>{el.population}</TD>
           </TR>
         ))}
     </Table>
@@ -129,33 +123,32 @@ const MainContent = ({ elements }: MainContentType) => {
           onDoubleClick={handleDoubleClick()}
         >
           <LabelValue
-            label="First name"
-            value={el.first_name}
+            label="Область"
+            value={el.region}
             isBoldLabel
             isBoldValue
           />
           <LabelValue
-            label="Last name"
-            value={el.last_name}
+            label="Областной центр"
+            value={el.capital}
             isBoldLabel
             isBoldValue
           />
-          <LabelValue label="Email" value={el.email} isBoldLabel isBoldValue />
+          <LabelValue
+            label="Площадь"
+            value={el.square}
+            isBoldLabel
+            isBoldValue
+          />
           <LabelValue
             label="Gender"
-            value={el.gender}
+            value={el.square}
             isBoldLabel
             isBoldValue
           />
           <LabelValue
-            label="Job"
-            value={el.job ?? "None"}
-            isBoldLabel
-            isBoldValue
-          />
-          <LabelValue
-            label="Salary"
-            value={el.salary}
+            label="Население"
+            value={el.population}
             isBoldLabel
             isBoldValue
           />
@@ -225,7 +218,7 @@ const MainContent = ({ elements }: MainContentType) => {
               await updateHandleSubmit(e);
             }}
           >
-            <input type="hidden" name="person_id" value={selectedElement.id} />
+            <input type="hidden" name="region_id" value={selectedElement.id} />
             <StyledFormContainer>
               <CreateFormFields
                 selectedElement={selectedElement}
