@@ -3,7 +3,8 @@ interface IMainTable {
   lastName: string;
   email: string;
   gender: string;
-  jobId?: string;
+  job: string;
+  salary: string;
 }
 
 export const createMainTableRow = ({
@@ -11,12 +12,11 @@ export const createMainTableRow = ({
   lastName,
   email,
   gender,
-  jobId = "493",
+  job,
+  salary,
 }: IMainTable) => {
   return `SELECT *
-          FROM create_main_element('${firstName}', '${lastName}', '${email}', '${gender}'${
-    jobId ? `, '${jobId}'` : ""
-  });`;
+          FROM create_main_element('${firstName}', '${lastName}', '${email}', '${gender}', '${job}', ${salary});`;
 };
 
 export const updateMainTableRow = ({
@@ -25,31 +25,33 @@ export const updateMainTableRow = ({
   lastName,
   email,
   gender,
-  jobId = "493",
+  job,
+  salary,
 }: IMainTable & { id: string }) =>
   `SELECT *
-   from update_main_table(${id}, '${firstName}', '${lastName}', '${email}', '${gender}'${
-    jobId ? `, ${jobId}` : ""
-  });`;
+   from update_table(${id}, '${firstName}', '${lastName}', '${email}', '${gender}', '${job}', ${salary});`;
 
 export const deleteMainTableRow = (id: string) =>
-  `SELECT * FROM delete_element_from_main_table(${id});`;
+  `SELECT *
+   FROM delete_element(${id});`;
 
 export const getMainTableRows = (offset?: string, limit?: string) =>
-  `SELECT * FROM display_main_table_with_relatable(${offset ?? "0"}, ${
-    limit ?? "20"
-  });`;
-
-export const getMainTableRow = (id: string) =>
   `SELECT *
-   FROM get_main_element(${id});`;
+   FROM display_table(${offset ?? "0"}, ${limit ?? "20"});`;
 
-export const getMax = () => `SELECT * FROM get_max();`;
+export const getMax = () => `SELECT *
+                             FROM get_max();`;
 
-export const getMin = () => `SELECT * FROM get_min();`;
+export const getMin = () => `SELECT *
+                             FROM get_min();`;
 
 export const getBetween = (from: string, to: string) =>
-  `SELECT * FROM get_between(${from}, ${to});`;
+  `SELECT *
+   FROM get_between(${from}, ${to});`;
 
-export const searchQuery = (search: string) =>
-  `select * from search_all_fields('${search}');`;
+export const searchDataQuery = (search: string) =>
+  `select *
+   from search_data('${search}');`;
+export const searchSalaryQuery = (search: string) =>
+  `select *
+   from search_data_by_salary(${search});`;

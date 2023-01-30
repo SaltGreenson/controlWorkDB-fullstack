@@ -8,7 +8,10 @@ import {
   updateRelatedTableRow,
 } from "../dbQueries/related.queries";
 import { initializedTRPC, publicProcedure } from "../helpers/helpers";
-import { relatedRowOutput, relatedRowsOutput } from "../output/related.output";
+import {
+  relatedRowOutput,
+  relatedRowsOutput,
+} from "../config/output/related.output";
 
 export const relatedTableRoutes = initializedTRPC.router({
   create: publicProcedure

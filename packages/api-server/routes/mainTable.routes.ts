@@ -1,22 +1,19 @@
 import { z } from "zod";
+import { createMainInput, updateMainInput } from "../config/input/main.input";
 import db from "../db/db.pool";
 import {
   createMainTableRow,
   deleteMainTableRow,
   getBetween,
-  getMainTableRow,
   getMainTableRows,
   getMax,
   getMin,
-  searchQuery,
+  searchDataQuery,
+  searchSalaryQuery,
   updateMainTableRow,
 } from "../dbQueries/main.queries";
 import { initializedTRPC, publicProcedure } from "../helpers/helpers";
-import {
-  mainRowOutput,
-  mainWithRelatableRowOutput,
-  mainWithRelatableRowsOutput,
-} from "../output/main.output";
+import { mainRowOutput, mainRowsOutput } from "../config/output/main.output";
 
 export const mainTableRoutes = initializedTRPC.router({
   create: publicProcedure
@@ -28,25 +25,18 @@ export const mainTableRoutes = initializedTRPC.router({
         summary: "Create element",
       },
     })
-    .input(
-      z.object({
-        firstName: z.string(),
-        lastName: z.string(),
-        email: z.string(),
-        gender: z.string(),
-        jobId: z.string().optional(),
-      })
-    )
+    .input(createMainInput)
     .output(mainRowOutput)
     .query(async ({ input }) => {
-      const { firstName, lastName, email, gender, jobId } = input;
+      const { firstName, lastName, email, gender, job, salary } = input;
       const createdElement = await db.query(
         createMainTableRow({
           firstName,
           lastName,
           email,
           gender,
-          jobId,
+          job,
+          salary,
         })
       );
       return createdElement.rows[0];
@@ -68,32 +58,12 @@ export const mainTableRoutes = initializedTRPC.router({
         })
         .optional()
     )
-    .output(mainWithRelatableRowsOutput)
+    .output(mainRowsOutput)
     .query(async ({ input }) => {
       const elements = await db.query(
         getMainTableRows(input?.offset, input?.limit)
       );
       return elements.rows;
-    }),
-  getOne: publicProcedure
-    .meta({
-      openapi: {
-        method: "GET",
-        path: "/main/element",
-        tags: ["main"],
-        summary: "Get element",
-      },
-    })
-    .input(
-      z.object({
-        id: z.string(),
-      })
-    )
-    .output(mainWithRelatableRowOutput)
-    .query(async ({ input }) => {
-      const { id } = input;
-      const candidate = await db.query(getMainTableRow(id));
-      return candidate.rows[0];
     }),
   update: publicProcedure
     .meta({
@@ -104,19 +74,10 @@ export const mainTableRoutes = initializedTRPC.router({
         summary: "Update element",
       },
     })
-    .input(
-      z.object({
-        id: z.string(),
-        firstName: z.string(),
-        lastName: z.string(),
-        email: z.string(),
-        gender: z.string(),
-        jobId: z.string().optional(),
-      })
-    )
+    .input(updateMainInput)
     .output(mainRowOutput)
     .query(async ({ input }) => {
-      const { id, firstName, lastName, email, gender, jobId } = input;
+      const { id, firstName, lastName, email, gender, job, salary } = input;
       const candidate = await db.query(
         updateMainTableRow({
           id,
@@ -124,7 +85,8 @@ export const mainTableRoutes = initializedTRPC.router({
           lastName,
           email,
           gender,
-          jobId,
+          job,
+          salary,
         })
       );
       return candidate.rows[0];
@@ -159,7 +121,7 @@ export const mainTableRoutes = initializedTRPC.router({
       },
     })
     .input(z.object({}).optional())
-    .output(mainWithRelatableRowOutput)
+    .output(mainRowOutput)
     .query(async () => {
       const candidate = await db.query(getMin());
       return candidate.rows[0];
@@ -174,7 +136,7 @@ export const mainTableRoutes = initializedTRPC.router({
       },
     })
     .input(z.object({}).optional())
-    .output(mainWithRelatableRowOutput)
+    .output(mainRowOutput)
     .query(async () => {
       const candidate = await db.query(getMax());
       return candidate.rows[0];
@@ -194,7 +156,7 @@ export const mainTableRoutes = initializedTRPC.router({
         to: z.string(),
       })
     )
-    .output(mainWithRelatableRowsOutput)
+    .output(mainRowsOutput)
     .query(async ({ input }) => {
       const { from, to } = input;
       const candidate = await db.query(getBetween(from, to));
@@ -214,10 +176,15 @@ export const mainTableRoutes = initializedTRPC.router({
         params: z.string(),
       })
     )
-    .output(mainWithRelatableRowsOutput)
+    .output(mainRowsOutput)
     .query(async ({ input }) => {
       const { params } = input;
-      const elements = await db.query(searchQuery(params));
+      let elements;
+      if (+params) {
+        elements = await db.query(searchSalaryQuery(params));
+      } else {
+        elements = await db.query(searchDataQuery(params));
+      }
       return elements.rows;
     }),
 });

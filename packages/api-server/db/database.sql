@@ -1,10 +1,3 @@
-CREATE TABLE IF NOT EXISTS job
-(
-    id        BIGSERIAL NOT NULL PRIMARY KEY,
-    job_title VARCHAR(50),
-    salary    DECIMAL(5, 1)
-);
-
 CREATE TABLE IF NOT EXISTS person
 (
     id         BIGSERIAL NOT NULL PRIMARY KEY,
@@ -12,7 +5,8 @@ CREATE TABLE IF NOT EXISTS person
     last_name  VARCHAR(50),
     email      VARCHAR(50),
     gender     VARCHAR(6),
-    job_id     BIGINT REFERENCES job (id)
+    job        VARCHAR(100),
+    salary     NUMERIC(8, 2)
 );
 
 CREATE VIEW temp_view AS
