@@ -91,7 +91,7 @@ const MainContent = ({ elements }: MainContentType) => {
     []
   );
 
-  const displayTable = () => (
+  const displayTableElements = () => (
     <Table>
       <TR>
         <TH>first name</TH>
@@ -202,7 +202,9 @@ const MainContent = ({ elements }: MainContentType) => {
         </FlexBlock>
       </FlexBlock>
 
-      <Container>{isActiveTable ? displayTable() : displayCards()}</Container>
+      <Container>
+        {isActiveTable ? displayTableElements() : displayCards()}
+      </Container>
 
       <FlexBlock
         align="center"
