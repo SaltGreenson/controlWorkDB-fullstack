@@ -11,27 +11,12 @@ const DynamicReportContent = dynamic(
     loading: Preloader,
   }
 );
-const Index = ({
-  withParams,
-  minElement,
-  maxElement,
-  betweenElements,
-  regionsLessThatAvg,
-  countRegionsLessThatAvg,
-  maxSquare,
-  avgPopulation,
-}: IReportProps): JSX.Element => {
+const Index = ({ initialData, defaultValues }: IReportProps): JSX.Element => {
   return (
     <MainLayout activeTab={2}>
       <DynamicReportContent
-        withParams={withParams}
-        minElement={minElement}
-        maxElement={maxElement}
-        betweenElements={betweenElements}
-        regionsLessThatAvg={regionsLessThatAvg}
-        countRegionsLessThatAvg={countRegionsLessThatAvg}
-        maxSquare={maxSquare}
-        avgPopulation={avgPopulation}
+        initialData={initialData}
+        defaultValues={defaultValues}
       />
     </MainLayout>
   );
@@ -40,6 +25,9 @@ const Index = ({
 export default Index;
 
 export async function getStaticProps() {
+  const defaultQuery = "Ми";
+  const defaultFrom = "1100";
+  const defaultTo = "1500";
   const responseMax = await instance.get("main/max-element");
   const responseMin = await instance.get("main/min-element");
   const responseBetween = await instance.get(
@@ -52,14 +40,21 @@ export async function getStaticProps() {
   const responseAvgPop = await instance.get("main/avg-population");
   return {
     props: {
-      withParams: responseParams.data,
-      minElement: responseMin.data,
-      maxElement: responseMax.data,
-      betweenElements: responseBetween.data,
-      regionsLessThatAvg: responseRegionsLess.data,
-      countRegionsLessThatAvg: responseCountLess.data,
-      avgPopulation: responseAvgPop.data,
-      maxSquare: responseMaxSquare.data,
+      initialData: {
+        withParams: responseParams.data,
+        minElement: responseMin.data,
+        maxElement: responseMax.data,
+        betweenElements: responseBetween.data,
+        regionsLessThatAvg: responseRegionsLess.data,
+        countRegionsLessThatAvg: responseCountLess.data,
+        avgPopulation: responseAvgPop.data,
+        maxSquare: responseMaxSquare.data,
+      },
+      defaultValues: {
+        defaultQuery,
+        defaultFrom,
+        defaultTo,
+      },
     },
   };
 }
