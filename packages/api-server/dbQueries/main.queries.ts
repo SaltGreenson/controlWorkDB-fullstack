@@ -1,35 +1,29 @@
 interface IMainTable {
-  firstName: string;
-  lastName: string;
-  email: string;
-  gender: string;
-  job: string;
-  salary: string;
+  region: string;
+  capital: string;
+  square: string;
+  population: string;
 }
 
 export const createMainTableRow = ({
-  firstName,
-  lastName,
-  email,
-  gender,
-  job,
-  salary,
+  region,
+  square,
+  capital,
+  population,
 }: IMainTable) => {
   return `SELECT *
-          FROM create_main_element('${firstName}', '${lastName}', '${email}', '${gender}', '${job}', ${salary});`;
+          FROM create_main_element('${region}', '${capital}', ${square}, ${population});`;
 };
 
 export const updateMainTableRow = ({
   id,
-  firstName,
-  lastName,
-  email,
-  gender,
-  job,
-  salary,
+  region,
+  square,
+  capital,
+  population,
 }: IMainTable & { id: string }) =>
   `SELECT *
-   from update_table(${id}, '${firstName}', '${lastName}', '${email}', '${gender}', '${job}', ${salary});`;
+   from update_table(${id}, '${region}', '${capital}', ${square}, ${population});`;
 
 export const deleteMainTableRow = (id: string) =>
   `SELECT *
@@ -55,3 +49,12 @@ export const searchDataQuery = (search: string) =>
 export const searchSalaryQuery = (search: string) =>
   `select *
    from search_data_by_salary(${search});`;
+
+export const getCountLessAvg = () => `
+    select *
+    from get_count_less_than_average();
+`;
+export const getRegionsLessAvg = () => `
+    select *
+    from get_regions_less_than_average();
+`;

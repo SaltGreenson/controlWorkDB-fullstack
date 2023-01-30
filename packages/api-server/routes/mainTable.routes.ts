@@ -5,9 +5,11 @@ import {
   createMainTableRow,
   deleteMainTableRow,
   getBetween,
+  getCountLessAvg,
   getMainTableRows,
   getMax,
   getMin,
+  getRegionsLessAvg,
   searchDataQuery,
   searchSalaryQuery,
   updateMainTableRow,
@@ -28,15 +30,13 @@ export const mainTableRoutes = initializedTRPC.router({
     .input(createMainInput)
     .output(mainRowOutput)
     .query(async ({ input }) => {
-      const { firstName, lastName, email, gender, job, salary } = input;
+      const { region, capital, square, population } = input;
       const createdElement = await db.query(
         createMainTableRow({
-          firstName,
-          lastName,
-          email,
-          gender,
-          job,
-          salary,
+          region,
+          square,
+          capital,
+          population,
         })
       );
       return createdElement.rows[0];
@@ -77,16 +77,14 @@ export const mainTableRoutes = initializedTRPC.router({
     .input(updateMainInput)
     .output(mainRowOutput)
     .query(async ({ input }) => {
-      const { id, firstName, lastName, email, gender, job, salary } = input;
+      const { id, region, capital, square, population } = input;
       const candidate = await db.query(
         updateMainTableRow({
           id,
-          firstName,
-          lastName,
-          email,
-          gender,
-          job,
-          salary,
+          region,
+          square,
+          capital,
+          population,
         })
       );
       return candidate.rows[0];
@@ -186,5 +184,39 @@ export const mainTableRoutes = initializedTRPC.router({
         elements = await db.query(searchDataQuery(params));
       }
       return elements.rows;
+    }),
+  getCountLessAvg: publicProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/main/avg-count",
+        tags: ["main"],
+        summary: "Get element between from and to",
+      },
+    })
+    .input(z.object({}).optional())
+    .output(
+      z.object({
+        count: z.number(),
+      })
+    )
+    .query(async ({ input }) => {
+      const candidate = await db.query(getCountLessAvg());
+      return candidate.rows[0];
+    }),
+  getRegionsLessAvg: publicProcedure
+    .meta({
+      openapi: {
+        method: "GET",
+        path: "/main/avg-elements",
+        tags: ["main"],
+        summary: "Get element between from and to",
+      },
+    })
+    .input(z.object({}).optional())
+    .output(mainRowsOutput)
+    .query(async ({ input }) => {
+      const candidate = await db.query(getRegionsLessAvg());
+      return candidate.rows;
     }),
 });
