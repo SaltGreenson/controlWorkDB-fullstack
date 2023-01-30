@@ -17,7 +17,7 @@ Run the development server:
 
 ```bash
 # in root directory
-npm run dev
+npm run start
 # or
-yarn dev
+yarn start
 ```
