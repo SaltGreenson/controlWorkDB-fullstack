@@ -27,11 +27,11 @@ export default Index;
 export async function getStaticProps() {
   const defaultQuery = "Ми";
   const defaultFrom = "1100";
-  const defaultTo = "1500";
+  const defaultTo = "1225";
   const responseMax = await instance.get("main/max-element");
   const responseMin = await instance.get("main/min-element");
   const responseBetween = await instance.get(
-    "main/between-element?from=1100&to=1500"
+    `main/between-element?from=${defaultFrom}&to=${defaultTo}`
   );
   const responseParams = await instance.get("main/elements/search?params=Ми");
   const responseCountLess = await instance.get("main/avg-count");

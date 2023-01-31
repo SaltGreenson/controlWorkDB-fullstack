@@ -34,7 +34,7 @@ const ReportContent = ({
   const [searchData, setSearchData] = useState(initialData.withParams);
   const [from, setFrom] = useState(defaultValues.defaultFrom);
   const [to, setTo] = useState(defaultValues.defaultTo);
-  const [betweenData, setBetweenData] = useState(initialData.withParams);
+  const [betweenData, setBetweenData] = useState(initialData.betweenElements);
 
   const searchHandle = useCallback(async (query: string) => {
     let response;
