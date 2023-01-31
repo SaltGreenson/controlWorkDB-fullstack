@@ -3,7 +3,7 @@ This is Full-stack application with [NodeJS v19](https://nodejs.org/en/)  and [N
 ## Getting started
 First, install the [PostgreSQL](https://www.postgresql.org/) on [Windows](https://winitpro.ru/index.php/2019/10/25/ustanovka-nastrojka-postgresql-v-windows/) or [Linux](https://www.postgresql.org/download/linux/), after that you need to set database pool in _```/packages/api-server/db/db.pool.ts```_. For creating the config you need to create _```keys/index.ts```_ in server root directory. 
 
-Exmple of _index.ts_:
+Exmple of _```index.ts```_:
 ```bash
 export const poolConfig = {
   user: "postgre",
