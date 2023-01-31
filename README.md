@@ -22,6 +22,8 @@ yarn # in root, server and client directories
 npm install
 ```
 
+## Usage
+
 Run the development server:
 
 ```bash
@@ -34,3 +36,5 @@ npm run start
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result of web application.
 
 [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:8080](http://localhost:8080).
+
+To change an element, click on it 2 times in the table on page __"Таблица"__. To creating new element go to page __"Создать элемент"__ and create him, also to display the report go to page __"Отчёт"__.
