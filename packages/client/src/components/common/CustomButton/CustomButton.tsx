@@ -36,13 +36,13 @@ const CustomButton = ({
       width={buttonSizesConfig[size ?? "medium"].width}
       {...props}
     >
-      <Paragraph fontSize="15px" color={Colors.DARK_BLUE} bold>
+      <Paragraph fontSize="15px" color={Colors.DARK_BLUE} bold margin="0">
         {children}
       </Paragraph>
     </SecondaryButton>
   ) : (
     <TextButton {...props}>
-      <Paragraph fontSize="14px" color={Colors.DARK_BLUE}>
+      <Paragraph fontSize="14px" color={Colors.DARK_BLUE} margin="0">
         {children}
       </Paragraph>
     </TextButton>
