@@ -17,7 +17,8 @@ export const poolConfig = {
 
 How to install dependencies:
 ```bash
-yarn # in root, server and client directories
+# in root, server and client directories
+yarn
 # or
 npm install
 ```
