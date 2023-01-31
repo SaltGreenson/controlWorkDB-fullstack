@@ -45,9 +45,11 @@ const MainContent = ({ elements }: MainContentType) => {
   );
 
   const loadMore = () => async () => {
-    const response = await instance.get(`main/elements?offset=${offset}`);
-    setData((prev) => [...prev, ...response.data]);
-    setOffset((prev) => prev + 20);
+    if (data.length >= offset) {
+      const response = await instance.get(`main/elements?offset=${offset}`);
+      setData((prev) => [...prev, ...response.data]);
+      setOffset((prev) => prev + 20);
+    }
   };
 
   const updateHandleSubmit = useCallback(
@@ -199,16 +201,18 @@ const MainContent = ({ elements }: MainContentType) => {
         {isActiveTable ? displayTableElements() : displayCards()}
       </Container>
 
-      <FlexBlock
-        align="center"
-        justify="center"
-        width="100%"
-        margin="20px 0 0 0"
-      >
-        <CustomButton variant="text" onClick={loadMore()}>
-          Показать еще
-        </CustomButton>
-      </FlexBlock>
+      {data.length >= offset && (
+        <FlexBlock
+          align="center"
+          justify="center"
+          width="100%"
+          margin="20px 0 0 0"
+        >
+          <CustomButton variant="text" onClick={loadMore()}>
+            Показать еще
+          </CustomButton>
+        </FlexBlock>
+      )}
 
       {isActivePopUp && (
         <PopUp setActive={setIsActivePopUp}>
