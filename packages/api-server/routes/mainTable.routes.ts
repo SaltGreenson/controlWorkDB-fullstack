@@ -180,7 +180,6 @@ export const mainTableRoutes = initializedTRPC.router({
     .query(async ({ input }) => {
       const { params } = input;
       let elements;
-      console.log(+params);
       if (+params) {
         elements = await db.query(searchSalaryQuery(params));
       } else {
@@ -203,9 +202,8 @@ export const mainTableRoutes = initializedTRPC.router({
         count: z.string(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async () => {
       const candidate = await db.query(getCountLessAvg());
-      console.log(candidate.rows);
       return candidate.rows[0];
     }),
   getRegionsLessAvg: publicProcedure
@@ -219,7 +217,7 @@ export const mainTableRoutes = initializedTRPC.router({
     })
     .input(z.object({}).optional())
     .output(mainRowsOutput)
-    .query(async ({ input }) => {
+    .query(async () => {
       const candidate = await db.query(getRegionsLessAvg());
       return candidate.rows;
     }),
@@ -234,7 +232,7 @@ export const mainTableRoutes = initializedTRPC.router({
     })
     .input(z.object({}).optional())
     .output(mainRowOutput)
-    .query(async ({ input }) => {
+    .query(async () => {
       const candidate = await db.query(getMaxSquare());
       return candidate.rows[0];
     }),
@@ -253,7 +251,7 @@ export const mainTableRoutes = initializedTRPC.router({
         avg: z.string(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async () => {
       const candidate = await db.query(getAvgPopulation());
       return candidate.rows[0];
     }),
