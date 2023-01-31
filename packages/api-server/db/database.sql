@@ -1,14 +1,3 @@
-CREATE TABLE IF NOT EXISTS person
-(
-    id         BIGSERIAL NOT NULL PRIMARY KEY,
-    first_name VARCHAR(50),
-    last_name  VARCHAR(50),
-    email      VARCHAR(50),
-    gender     VARCHAR(6),
-    job        VARCHAR(100),
-    salary     NUMERIC(8, 2)
-);
-
 CREATE TABLE IF NOT EXISTS belarus_region
 (
     id BIGSERIAL NOT NULL PRIMARY KEY,
@@ -29,14 +18,6 @@ INSERT INTO belarus_region (region, capital, square, population) VALUES ('Гом
 INSERT INTO belarus_region (region, capital, square, population) VALUES ('Гродненская', 'Гродно', 25.1, 1123.5);
 INSERT INTO belarus_region (region, capital, square, population) VALUES ('Минская', 'Минск', 39.96, 1474.1);
 INSERT INTO belarus_region (region, capital, square, population) VALUES ('Могилевская', 'Могилев', 29.0, 1146.8);
-
-CREATE VIEW temp_view AS
-SELECT id, last_name, email
-FROM person;
-
-
-ALTER TABLE person
-    ADD CONSTRAINT gender_male_and_female_constraint CHECK (gender = 'Female' OR gender = 'Male');
 
 
 CREATE OR REPLACE FUNCTION get_functions()

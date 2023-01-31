@@ -106,8 +106,8 @@ $$
 BEGIN
     RETURN QUERY SELECT *
                  FROM belarus_region
-                 WHERE capital LIKE '%' || search_text || '%'
-                    OR region LIKE '%' || search_text || '%';
+                 WHERE capital ILIKE '%' || search_text || '%'
+                    OR region ILIKE '%' || search_text || '%';
 END;
 $$ LANGUAGE plpgsql;
 
